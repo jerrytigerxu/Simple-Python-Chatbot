@@ -1,12 +1,15 @@
 
 import nltk
 from nltk.stem import WordNetLemmatizer
+from numpy.lib.arraysetops import isin
 lemmatizer = WordNetLemmatizer()
 import pickle
 import numpy as np
+from tensorflow import keras
+#from keras.models import load_model
 
-from keras.models import load_model
-model = load_model('chatbot_model.h5')
+
+model = keras.models.load_model('chatbot_model.h5')
 import json
 import random
 intents = json.loads(open('intents.json').read())
@@ -49,10 +52,11 @@ def predict_class(sentence, model):
     return return_list
 
 def getResponse(ints, intents_json):
-    tag = ints[0]['intent']
+    tag = ints[0]['intent'][:-1]
     list_of_intents = intents_json['intents']
+    result = ''
     for i in list_of_intents:
-        if(i['tag']== tag):
+        if i['tag'] == tag:
             result = random.choice(i['responses'])
             break
     return result
@@ -83,9 +87,9 @@ def send():
         ChatLog.config(state=DISABLED)
         ChatLog.yview(END)
 
-
+isInit = True
 base = Tk()
-base.title("Hello")
+base.title("CareU")
 base.geometry("400x500")
 base.resizable(width=FALSE, height=FALSE)
 
@@ -111,6 +115,15 @@ EntryBox = Text(base, bd=0, bg="white",width="29", height="5", font="Arial")
 #Place all components on the screen
 scrollbar.place(x=376,y=6, height=386)
 ChatLog.place(x=6,y=6, height=386, width=370)
+if isInit:
+    ChatLog.config(state=NORMAL)
+    ChatLog.config(foreground="#442265", font=("Verdana", 12 ))
+
+    ChatLog.insert(END, 'Bot: Greetings to you\n\n')
+
+    ChatLog.config(state=DISABLED)
+    ChatLog.yview(END)
+    isInit = False
 EntryBox.place(x=128, y=401, height=90, width=265)
 SendButton.place(x=6, y=401, height=90)
 
