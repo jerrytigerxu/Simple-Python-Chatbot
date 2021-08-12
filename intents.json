@@ -68,6 +68,21 @@
          "patterns": [],
          "responses": ["Loading hospital details"],
          "context": [""]
+        },
+        {"tag": "birthday",
+        "patterns": [],
+        "responses": ["Today is your birthday, I wish you have a wonderful day!"],
+        "context": [""]
+        },
+        {"tag": "christmas",
+        "patterns": [],
+        "responses": ["Merry Christmas to you and your family"],
+        "context": [""]
+        },
+        {"tag": "work_aniversary",
+        "patterns": [],
+        "responses": ["Today is your Hitachi Vantara aniversary day, thank you for your hardwork"],
+        "context": [""]
         }
    ]
 }
