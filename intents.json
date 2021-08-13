@@ -83,6 +83,26 @@
         "patterns": [],
         "responses": ["Today is your Hitachi Vantara aniversary day, thank you for your hardwork"],
         "context": [""]
+        },
+        {"tag": "drink_water",
+        "patterns": [],
+        "responses": ["You should have a sip of water, it's good for your health"],
+        "context": [""]
+        },
+        {"tag": "stand_up",
+        "patterns": [],
+        "responses": ["You should stand up for a little while, it's good for your health"],
+        "context": [""]
+        },
+        {"tag": "walk",
+        "patterns": [],
+        "responses": ["You should walk around a litle bit, it's good for your health"],
+        "context": [""]
+        },
+        {"tag": "do_exercise",
+        "patterns": [],
+        "responses": ["You should do a small exercise, it's good for your health"],
+        "context": [""]
         }
    ]
 }
