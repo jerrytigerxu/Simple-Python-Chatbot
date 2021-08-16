@@ -1,8 +1,13 @@
 {"intents": [
         {"tag": "greeting",
          "patterns": ["Hi there", "How are you", "Is anyone there?","Hey","Hola", "Hello", "Good day"],
-         "responses": ["Hello there", "Good to see you again", "Hi there, how can I help?"],
+         "responses": ["Hello there", "Hola", "Hi bot", "Good day", "It's good to see you", "Hi! How's it going?", "Hi there, how can I help?"],
          "context": [""]
+        },
+        {"tag": "inspiration",
+        "patterns": [],
+        "responses": ["Have a great day!", "Nothing is impossible, the word itself says I'm possible! Just go ahead!", "We all are special we just need to find our specialty.", "The only way to do great work is to love what you do. - Steve Jobs", "Believe you can and you are halfway there. - Theodore Roosevelt"],
+        "context": [""]
         },
         {"tag": "goodbye",
          "patterns": ["Bye", "See you later", "Goodbye", "Nice chatting to you, bye", "Till next time"],
@@ -18,6 +23,26 @@
          "patterns": [],
          "responses": ["Sorry, can't understand you", "Please give me more info", "Not sure I understand"],
          "context": [""]
+        },
+        {"tag": "eating",
+        "patterns": ["I am hungry", "hungry", "I want to eat something", "I need food", "food"],
+        "responses": ["Maybe, you should have a brunch", "Try healthy yogurt if you like", "Hmm, get some healthy snacks", "A boiled egg is a good choice", "Let's go to boost energy with some snakcs."],
+        "context": [""]
+        },
+        {"tag": "what_to_eat",
+        "patterns": ["No, it's not enough", "I dont like to eat that", "what should I eat for breakfast?", "what should I eat for lunch?", "what should I eat for dinner?", "what should I cook today?", "Can you suggest something to eat?", "No, I want more", "I wanna cook something"],
+        "responses": ["Healthy salad is a good choice", "How about pasta?", "You like sandwich with smoked bacon, egg & mayonaise?", "Chicken nuggets with fries & salad", "You want some Yangzhou fried rice & juice", "I think you should try Simmered Pork in fish sauce with pepper & Young tofu soup", "Some healthy dishes like steamed chicken & tomato soup"],
+        "context": [""]
+        },
+        {"tag": "drink",
+        "patterns": ["I would like to drink something now", "Can you suggest something to drink?", "Anything to drink", "I hate water"],
+        "responses":["Orange juice with much Vitamin C is super great for your heath this time", "Try milk juice? there are many flavors", "Do not think of soft drink like coke anymore, you should drink juice", "How about smoothies?  If you have some fruit at home, try now", "Maybe a cup of coffee if you feel asleep", "Try a cup of tea with lemon, really fresh!"],
+        "context": [""]
+        },
+        {"tag": "where_buy_drink",
+        "patterns":  ["how to buy drink?", "how can I buy them?", "due to covid, I cannot go out to buy easily", "can you suggest where to buy drink?", "It's hard hard to buy now, so how can I make healthy drinks?", "how to make that?"],
+        "responses": ["I think you should by online and check some recepies on Google", "You should buy online on Grab or Now and then try making by yourself! I'm sure it is easy", "Let's check on Grab or Now for some fresh fruits and keep them in your refrigerator. You can make everytime you want"],
+        "context": [""]
         },
         {"tag": "options",
          "patterns": ["How you could help me?", "What you can do?", "What help you provide?", "How you can be helpful?", "What support is offered"],
@@ -71,22 +96,22 @@
         },
         {"tag": "birthday",
         "patterns": [],
-        "responses": ["Today is your birthday, I wish you have a wonderful day!"],
+        "responses": ["Today is your birthday, I wish you have a wonderful day!", "Happy birthday! I hope all your birthday wishes and dreams come true", "May the joy that you have spread in the past come back to you on this day. Wishing you a very happy birthday!", "Count not the candles…see the lights they give. Count not the years, but the life you live. Wishing you a wonderful time ahead. Happy birthday.", "Your birthday is the first day of another 365-day journey. Be the shining thread in the beautiful tapestry of the world to make this year the best ever. Enjoy the ride.", "A birthday is like a new year and my wish for you, is a great year full of happiness and sunshine!", "May your birthday be sprinkled with fun and laughter. Have a great day!"],
         "context": [""]
         },
         {"tag": "christmas",
         "patterns": [],
-        "responses": ["Merry Christmas to you and your family"],
+        "responses": ["Merry Christmas to you and your family", "Let us keep Christmas beautiful without a thought of greed.", "It's the season to wish one another joy, love and peace. These are my wishes for you. Merry Christmas, my dear friend. May you feel the love this special day brings.", "You make the stars shine brighter and the winter days warmer just by being in my life. Merry Christmas to my favourite person in the world", "May the joy and peace that comes with Christmas be with you all through the Year. I wish you a season of blessings from heaven above"],
         "context": [""]
         },
         {"tag": "work_aniversary",
         "patterns": [],
-        "responses": ["Today is your Hitachi Vantara aniversary day, thank you for your hardwork"],
+        "responses": ["Congratulations on your work milestone at Hitachi Vantara Vietnam, thank you for all your hardwork", "Happy Work Anniversary! Another year of excellence! Thanks for all the amazing work you do. Your effort and enthusiasm are much needed, and very much appreciated.", "Happy work anniversary! They are truly lucky to have such a smart, thoughtful, and talented person like you" ],
         "context": [""]
         },
         {"tag": "drink_water",
         "patterns": [],
-        "responses": ["You should have a sip of water, it's good for your health"],
+        "responses": ["Let's have a sip of water, it's good for your health", "Now! Go to have some water", "Hi, a kind reminder for a drinking water. Hurry!", "Your body told me that it really needs water! Drink now"],
         "context": [""]
         },
         {"tag": "stand_up",

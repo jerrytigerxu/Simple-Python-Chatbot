@@ -49,7 +49,7 @@ def bow(sentence, words, show_details=True):
     bag = [0]*len(words)
     for s in sentence_words:
         for i, w in enumerate(words):  
-            if w[:-1] == s:
+            if w == s:
                 # assign 1 if current word is in the vocabulary position
                 bag[i] = 1
                 if show_details:
@@ -59,6 +59,9 @@ def bow(sentence, words, show_details=True):
 def predict_class(sentence, model):
     # filter out predictions below a threshold
     p = bow(sentence, words, show_details=False)
+    print(p)
+    if not np.any(p):
+        return [{"intent": 'noanswer', "probability": 1.0}]
     res = model.predict(np.array([p]))[0]
     ERROR_THRESHOLD = 0.25
     results = [[i,r] for i,r in enumerate(res) if r>ERROR_THRESHOLD]
@@ -70,7 +73,7 @@ def predict_class(sentence, model):
     return return_list
 
 def getResponse(ints, intents_json):
-    tag = ints[0]['intent'][:-1]
+    tag = ints[0]['intent']
     list_of_intents = intents_json['intents']
     result = ''
     for i in list_of_intents:
@@ -128,8 +131,9 @@ def call_event(event):
         pass
 
 def call_reminder(sleep_time, event):
-    time.sleep(sleep_time * 60) # Sleep_time is in minute
-    call_event(event)
+    while 1:
+        time.sleep(sleep_time * 60) # Sleep_time is in minute
+        call_event(event)
 
 def call_str(str):
     ChatLog.config(state=NORMAL)
@@ -171,8 +175,7 @@ scrollbar.place(x=376,y=6, height=386)
 ChatLog.place(x=6,y=6, height=386, width=370)
 
 if isInit:
-    temp_str = 'Bot: Greetings to you, ' + user['username'].split()[-1] + '\n\n'
-    call_str(temp_str)
+    call_event('inspiration')
     
     for reminder in list(REMINDER_DICT.keys()):
         t = Thread(target=call_reminder, args=(REMINDER_DICT[reminder], reminder,))
