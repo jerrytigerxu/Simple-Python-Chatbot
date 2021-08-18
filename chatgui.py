@@ -22,17 +22,21 @@ words = pickle.load(open('words.pkl','rb'))
 classes = pickle.load(open('classes.pkl','rb'))
 
 
-EVENT_DICT = {
+YEARLY_EVENT_DICT = {
     'christmas': '2000/12/25',
     'birthday': user['birthday'],
     'work_aniversary': user['work_aniversary']
 }
 
 REMINDER_DICT = {
-    'drink_water': 0.5,
+    'drink_water': 1.0,
     'stand_up': 2.0,
     'walk': 3.0,
     'do_exercise': 4.0
+}
+
+DAILY_EVENT_DICT = {
+    'ask_employee': '17:30:00'
 }
 
 def clean_up_sentence(sentence):
@@ -184,9 +188,9 @@ if isInit:
 
     isInit = False
 
-for event in list(EVENT_DICT.keys()):
-    if (datetime.strptime(EVENT_DICT[event], '%Y/%m/%d').day == date.today().day and 
-        datetime.strptime(EVENT_DICT[event], '%Y/%m/%d').month == date.today().month):
+for event in list(YEARLY_EVENT_DICT.keys()):
+    if (datetime.strptime(YEARLY_EVENT_DICT[event], '%Y/%m/%d').day == date.today().day and 
+        datetime.strptime(YEARLY_EVENT_DICT[event], '%Y/%m/%d').month == date.today().month):
         call_event(event)
 
 EntryBox.place(x=128, y=401, height=90, width=265)
