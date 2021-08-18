@@ -135,17 +135,17 @@
         "context": [""]
         },
         {"tag": "answer_good",
-        "patterns": ["today is good", "it is terrific", "better", "this is the best day", "awesome", "delightful", "nice"],
+        "patterns": ["good", "best", "terrific", "today is good", "it is terrific", "better", "this is the best day", "awesome", "delightful", "nice"],
         "responses": ["Thank you for your response. I'm glad that you're having a good day."],
         "context": [""]
         },
         {"tag": "answer_neutral",
-        "patterns": ["today is normal", "it is neutral", "same day", "as usual"],
+        "patterns": ["normal", "neutral", "today is normal", "it is neutral", "same day", "as usual"],
         "responses": ["Thank you for your response. I'm having a feeling that tomorrow is going to be nice."],
         "context": [""]
         },
         {"tag": "answer_bad",
-        "patterns": ["today is bad", "it is terrible", "worse", "this is the worst day", "not good", "I'm tired today", "boring"],
+        "patterns": ["bad", "worse", "worst", "today is bad", "it is terrible", "worse", "this is the worst day", "not good", "I'm tired today", "boring"],
         "responses": ["Thank you for your response. I'm sorry to hear that, tomorrow is going to be a brand new awesome day, trust me."],
         "context": [""]
         }

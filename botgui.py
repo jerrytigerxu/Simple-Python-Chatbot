@@ -35,16 +35,19 @@ class GUI(Frame):
 		self.words = pickle.load(open('words.pkl','rb'))
 		self.classes = pickle.load(open('classes.pkl','rb'))
 		self.model = keras.models.load_model('chatbot_model.h5')
-		self.EVENT_DICT = {
+		self.YEARLY_EVENT_DICT = {
 			'christmas': '2000/12/25',
 			'birthday': self.user['birthday'],
 			'work_aniversary': self.user['work_aniversary']
 		}
+		self.DAILY_EVENT_DICT = {
+			'ask_employee': '18:41'
+		}
 		self.REMINDER_DICT = {
-			'drink_water': 0.5,
-			'stand_up': 2.0,
-			'walk': 3.0,
-			'do_exercise': 4.0
+			'drink_water': 1.0,
+			'stand_up': 5.0,
+			'walk': 6.0,
+			'do_exercise': 7.0
 		}
 		self.p = pyaudio.PyAudio()
 		self.frames = []
@@ -66,7 +69,7 @@ class GUI(Frame):
 		self.hellow_window.geometry('%dx%d+%d+%d' % (w, h, x, y))
 	
 		# set the title
-		self.hellow_window.title("CareU3000")
+		self.hellow_window.title("CareU")
 		self.hellow_window.resizable(width = False,
 							height = False)
 		self.hellow_window.configure(width = w,
@@ -74,6 +77,7 @@ class GUI(Frame):
 
 		# create a hello string user Label and place it
 		hello_str = "Greetings to you, " + helpers.get_user_name()
+		# hello_str = self.getResponseFromTag('inspiration', self.intents)
 		self.pls = Label(self.hellow_window,
 					text = hello_str,
 					justify = CENTER,
@@ -98,7 +102,7 @@ class GUI(Frame):
 		# along with action
 		self.go = Button(
 			self.hellow_window,
-			text = "Miss You",
+			text = "Let's talk!",
 			font = "Helvetica 14 bold",
 			command = lambda: self.goAhead(helpers.get_user_name()),
 			justify= CENTER
@@ -263,15 +267,20 @@ class GUI(Frame):
 		self.textCons.config(state = DISABLED)
 
 		# auto call event
-		for event in list(self.EVENT_DICT.keys()):
-			if (datetime.strptime(self.EVENT_DICT[event], '%Y/%m/%d').day == date.today().day and 
-				datetime.strptime(self.EVENT_DICT[event], '%Y/%m/%d').month == date.today().month):
+		for event in list(self.YEARLY_EVENT_DICT.keys()):
+			if (datetime.strptime(self.YEARLY_EVENT_DICT[event], '%Y/%m/%d').day == date.today().day and 
+				datetime.strptime(self.YEARLY_EVENT_DICT[event], '%Y/%m/%d').month == date.today().month):
 				self.call_event(event)
 		
 		# auto call reminder
 		reminder_list = []
 		for reminder in list(self.REMINDER_DICT.keys()):
 			t = Thread(target=self.call_reminder, args=(self.REMINDER_DICT[reminder], reminder,))
+			reminder_list.append(t)
+			reminder_list[-1].start()
+		
+		for reminder in list(self.DAILY_EVENT_DICT.keys()):
+			t = Thread(target=self.call_daily, args=(self.DAILY_EVENT_DICT[reminder], reminder,))
 			reminder_list.append(t)
 			reminder_list[-1].start()
 
@@ -289,8 +298,15 @@ class GUI(Frame):
 			pass
 
 	def call_reminder(self, sleep_time, event):
-		time.sleep(sleep_time * 60) # Sleep_time is in minute
-		self.call_event(event)
+		while 1:
+			time.sleep(sleep_time * 60) # Sleep_time is in minute
+			self.call_event(event)
+
+	def call_daily(self, time_call, event):
+		while 1:
+			time.sleep(60)
+			if datetime.strptime(time_call, '%H:%M').strftime('%H:%M') == datetime.now().strftime('%H:%M'):
+				self.call_event(event)
 
 	def send(self):
 		msg = self.entryMsg.get("1.0",'end-1c').strip()
@@ -315,6 +331,8 @@ class GUI(Frame):
 	def predict_class(self, sentence, model):
 		# filter out predictions below a threshold
 		p = self.bow(sentence, self.words, show_details=False)
+		if not np.any(p):
+			return [{"intent": 'noanswer', "probability": 1.0}]
 		res = model.predict(np.array([p]))[0]
 		ERROR_THRESHOLD = 0.25
 		results = [[i,r] for i,r in enumerate(res) if r>ERROR_THRESHOLD]
@@ -326,7 +344,7 @@ class GUI(Frame):
 		return return_list
 
 	def getResponse(self, ints, intents_json):
-		tag = ints[0]['intent'][:-1]
+		tag = ints[0]['intent']
 		list_of_intents = intents_json['intents']
 		result = ''
 		for i in list_of_intents:
@@ -342,7 +360,7 @@ class GUI(Frame):
 		bag = [0]*len(words)
 		for s in sentence_words:
 			for i, w in enumerate(words):  
-				if w[:-1] == s:
+				if w == s:
 					# assign 1 if current word is in the vocabulary position
 					bag[i] = 1
 					if show_details:

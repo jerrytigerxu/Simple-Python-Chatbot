@@ -62,7 +62,6 @@ def bow(sentence, words, show_details=True):
 def predict_class(sentence, model):
     # filter out predictions below a threshold
     p = bow(sentence, words, show_details=False)
-    print(p)
     if not np.any(p):
         return [{"intent": 'noanswer', "probability": 1.0}]
     res = model.predict(np.array([p]))[0]
