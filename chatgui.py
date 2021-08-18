@@ -35,7 +35,7 @@ REMINDER_DICT = {
 }
 
 DAILY_EVENT_DICT = {
-    'ask_employee': '17:30:00'
+    'ask_employee': '17:37'
 }
 
 def clean_up_sentence(sentence):
@@ -138,6 +138,12 @@ def call_reminder(sleep_time, event):
         time.sleep(sleep_time * 60) # Sleep_time is in minute
         call_event(event)
 
+def call_daily(time_call, event):
+    while 1:
+        time.sleep(60)
+        if datetime.strptime(time_call, '%H:%M').strftime('%H:%M') == datetime.now().strftime('%H:%M'):
+            call_event(event)
+
 def call_str(str):
     ChatLog.config(state=NORMAL)
     ChatLog.config(foreground="#442265", font=("Verdana", 12 ))
@@ -186,6 +192,11 @@ if isInit:
         reminder_list[-1].start()
 
     isInit = False
+
+for reminder in list(DAILY_EVENT_DICT.keys()):
+    t = Thread(target=call_daily, args=(DAILY_EVENT_DICT[reminder], reminder,))
+    reminder_list.append(t)
+    reminder_list[-1].start()
 
 for event in list(YEARLY_EVENT_DICT.keys()):
     if (datetime.strptime(YEARLY_EVENT_DICT[event], '%Y/%m/%d').day == date.today().day and 
