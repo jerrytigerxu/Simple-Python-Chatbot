@@ -41,13 +41,13 @@ class GUI(Frame):
 			'work_aniversary': self.user['work_aniversary']
 		}
 		self.DAILY_EVENT_DICT = {
-			'ask_employee': '18:41'
+			'ask_employee': '21:50'
 		}
 		self.REMINDER_DICT = {
-			'drink_water': 1.0,
-			'stand_up': 5.0,
-			'walk': 6.0,
-			'do_exercise': 7.0
+			'drink_water': 0.5,
+			'stand_up': 60.0,
+			'walk': 60.0,
+			'do_exercise': 60.0
 		}
 		self.p = pyaudio.PyAudio()
 		self.frames = []
