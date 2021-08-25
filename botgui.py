@@ -64,6 +64,12 @@ class GUI(Frame):
 		x = (ws/2) - (w/2)
 		y = (hs/2) - (h/2)
 		self.hellow_window.geometry('%dx%d+%d+%d' % (w, h, x, y))
+
+		bg = ImageTk.PhotoImage(Image.open("./resources/images/Background2.jpg"))
+
+		# Show image using label
+		label1 = Label(self.hellow_window, image = bg)
+		label1.place(x = 0, y = 0)
 	
 		# set the title
 		self.hellow_window.title("CareU3000")
@@ -90,7 +96,7 @@ class GUI(Frame):
 		)
 		bot_say_hi_label.place(
 			relheight = 0.50,
-			relwidth = 0.50,
+			relwidth = 0.60,
 			relx = 0.2,
 			rely = 0.25
 		)
@@ -102,9 +108,8 @@ class GUI(Frame):
 			text = "Let's talk",
 			font = "Helvetica 14 bold",
 			command = lambda: self.goAhead(helpers.get_user_name()),
-			justify= CENTER
 		)
-		
+
 		self.go.place(
 			relx = 0.4,
 			rely = 0.8
