@@ -83,13 +83,14 @@ class GUI(Frame):
 					rely = 0.07)
 
 		# BotGui image say hi
-		bot_say_hi_img = ImageTk.PhotoImage(Image.open("./resources/images/botgui_say_hi.jpg"))
+		bot_say_hi_img = ImageTk.PhotoImage(Image.open("./resources/images/ava.jpg"))
 		bot_say_hi_label = Label(
 			self.hellow_window,
 			image=bot_say_hi_img,
 		)
 		bot_say_hi_label.place(
 			relheight = 0.50,
+			relwidth = 0.50,
 			relx = 0.2,
 			rely = 0.25
 		)
@@ -98,7 +99,7 @@ class GUI(Frame):
 		# along with action
 		self.go = Button(
 			self.hellow_window,
-			text = "Miss You",
+			text = "Let's talk",
 			font = "Helvetica 14 bold",
 			command = lambda: self.goAhead(helpers.get_user_name()),
 			justify= CENTER
@@ -262,6 +263,9 @@ class GUI(Frame):
 		
 		self.textCons.config(state = DISABLED)
 
+		#auto call inspiration event
+		self.call_event("inspiration")
+
 		# auto call event
 		for event in list(self.EVENT_DICT.keys()):
 			if (datetime.strptime(self.EVENT_DICT[event], '%Y/%m/%d').day == date.today().day and 
@@ -289,8 +293,9 @@ class GUI(Frame):
 			pass
 
 	def call_reminder(self, sleep_time, event):
-		time.sleep(sleep_time * 60) # Sleep_time is in minute
-		self.call_event(event)
+		while 1:
+			time.sleep(sleep_time * 60) # Sleep_time is in minute
+			self.call_event(event)
 
 	def send(self):
 		msg = self.entryMsg.get("1.0",'end-1c').strip()
@@ -307,6 +312,19 @@ class GUI(Frame):
 			self.textCons.config(state=DISABLED)
 			self.textCons.yview(END)
 	
+	def send_message(self, message):
+		if message != '':
+			self.textCons.config(state=NORMAL)
+			self.textCons.insert(END, "You: " + message + '\n\n')
+			self.textCons.config(foreground="#442265", font=("Verdana", 12 ))
+
+			res = self.chatbot_response(message)
+			self.textCons.insert(END, "Bot: " + res + '\n\n')
+
+			self.textCons.config(state=DISABLED)
+			self.textCons.yview(END)
+	
+
 	def chatbot_response(self, msg):
 		ints = self.predict_class(msg, self.model)
 		res = self.getResponse(ints, self.intents)
@@ -315,6 +333,9 @@ class GUI(Frame):
 	def predict_class(self, sentence, model):
 		# filter out predictions below a threshold
 		p = self.bow(sentence, self.words, show_details=False)
+		print(p)
+		if not np.any(p):
+			return [{"intent": 'noanswer', "probability": 1.0}]
 		res = model.predict(np.array([p]))[0]
 		ERROR_THRESHOLD = 0.25
 		results = [[i,r] for i,r in enumerate(res) if r>ERROR_THRESHOLD]
@@ -326,7 +347,7 @@ class GUI(Frame):
 		return return_list
 
 	def getResponse(self, ints, intents_json):
-		tag = ints[0]['intent'][:-1]
+		tag = ints[0]['intent']
 		list_of_intents = intents_json['intents']
 		result = ''
 		for i in list_of_intents:
@@ -342,7 +363,7 @@ class GUI(Frame):
 		bag = [0]*len(words)
 		for s in sentence_words:
 			for i, w in enumerate(words):  
-				if w[:-1] == s:
+				if w == s:
 					# assign 1 if current word is in the vocabulary position
 					bag[i] = 1
 					if show_details:
@@ -383,18 +404,34 @@ class GUI(Frame):
 
 	def record(self):
 		while self.isrecording:
-			data = self.stream.read(self.chunk)
-			self.frames.append(data)
+			# data = self.stream.read(self.chunk)
+			# self.frames.append(data)
 
-			file_name = "./resources/records/record.wav"
-			r = sr.Recognizer()
-			with sr.AudioFile(file_name) as source:
-				# listen for the data (load audio to memory)
-				audio_data = r.record(source)
-				# recognize (convert from speech to text)
-				text = r.recognize_google(audio_data)
-				self.call_str(text)
-	
+			# file_name = "./resources/records/record.wav"
+			# r = sr.Recognizer()
+			# with sr.AudioFile(file_name) as source:
+			# 	# listen for the data (load audio to memory)
+			# 	audio_data = r.record(source)
+			# 	# recognize (convert from speech to text)
+			# 	text = r.recognize_google(audio_data, language = 'fr-CA', show_all=True)
+			# 	print(f"-----------text: {text}")
+			# 	self.call_str(text)
+			r = sr.Recognizer()  
+			with sr.Microphone() as source:  
+				print("Please wait. Calibrating microphone...")  
+				# listen for 5 seconds and create the ambient noise energy level  
+				r.record(source, duration=2)
+				# r.adjust_for_ambient_noise(source, duration=5)  
+				print("Say something!")
+				audio = r.listen(source)
+				text = r.recognize_google(audio, language = 'en-IN', show_all = True)
+				for i in text["alternative"]:
+					trans = i["transcript"]
+					print(f"I thinks you said: {trans}")
+					# self.call_str("You: " + trans + "\n\n")
+					self.send_message(trans)
+				
+
 	def stop_record(self):
 		print("Stop record")
 		# hide stop record button
