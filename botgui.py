@@ -41,7 +41,7 @@ class GUI(Frame):
 			'work_aniversary': self.user['work_aniversary']
 		}
 		self.DAILY_EVENT_DICT = {
-			'ask_employee': '21:50'
+			'ask_employee': '17:37'
 		}
 		self.REMINDER_DICT = {
 			'drink_water': 0.5,
@@ -49,6 +49,7 @@ class GUI(Frame):
 			'walk': 60.0,
 			'do_exercise': 60.0
 		}
+
 		self.p = pyaudio.PyAudio()
 		self.frames = []
 
@@ -67,12 +68,6 @@ class GUI(Frame):
 		x = (ws/2) - (w/2)
 		y = (hs/2) - (h/2)
 		self.hellow_window.geometry('%dx%d+%d+%d' % (w, h, x, y))
-
-		bg = ImageTk.PhotoImage(Image.open("./resources/images/Background2.jpg"))
-
-		# Show image using label
-		label1 = Label(self.hellow_window, image = bg)
-		label1.place(x = 0, y = 0)
 	
 		# set the title
 		self.hellow_window.title("CareU")
@@ -176,7 +171,7 @@ class GUI(Frame):
 		self.line.place(relwidth = 1,
 						rely = 0.07,
 						relheight = 0.012)
-		
+
 		# ChatLog
 		self.textCons = Text(self.chat_window,
 							width = 20,
@@ -184,6 +179,8 @@ class GUI(Frame):
 							font = "Helvetica 14",
 							padx = 5,
 							pady = 5)
+
+		image_ = ImageTk.PhotoImage(Image.open("./resources/images/Background2.jpg"))
 		
 		self.textCons.place(relheight = 0.745,
 							relwidth = 1,
@@ -283,15 +280,20 @@ class GUI(Frame):
 		
 		# auto call reminder
 		reminder_list = []
-		for reminder in list(self.REMINDER_DICT.keys()):
-			t = Thread(target=self.call_reminder, args=(self.REMINDER_DICT[reminder], reminder,))
-			reminder_list.append(t)
-			reminder_list[-1].start()
+		# for reminder in list(self.REMINDER_DICT.keys()):
+		# 	t = Thread(target=self.call_reminder, args=(self.REMINDER_DICT[reminder], reminder,))
+		# 	reminder_list.append(t)
+		# 	reminder_list[-1].start()
 		
 		for reminder in list(self.DAILY_EVENT_DICT.keys()):
 			t = Thread(target=self.call_daily, args=(self.DAILY_EVENT_DICT[reminder], reminder,))
 			reminder_list.append(t)
 			reminder_list[-1].start()
+
+		for event in list(self.YEARLY_EVENT_DICT.keys()):
+			if (datetime.strptime(self.YEARLY_EVENT_DICT[event], '%Y/%m/%d').day == date.today().day and 
+				datetime.strptime(self.YEARLY_EVENT_DICT[event], '%Y/%m/%d').month == date.today().month):
+				self.call_event(event)
 
 	def call_event(self, event):
 		try:
