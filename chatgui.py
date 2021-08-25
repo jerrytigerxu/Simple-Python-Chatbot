@@ -21,17 +21,21 @@ words = pickle.load(open('words.pkl','rb'))
 classes = pickle.load(open('classes.pkl','rb'))
 
 
-EVENT_DICT = {
+YEARLY_EVENT_DICT = {
     'christmas': '2000/12/25',
     'birthday': user['birthday'],
     'work_aniversary': user['work_aniversary']
 }
 
 REMINDER_DICT = {
-    'drink_water': 0.5,
+    'drink_water': 1.0,
     'stand_up': 2.0,
     'walk': 3.0,
     'do_exercise': 4.0
+}
+
+DAILY_EVENT_DICT = {
+    'ask_employee': '17:37'
 }
 
 def clean_up_sentence(sentence):
@@ -58,7 +62,6 @@ def bow(sentence, words, show_details=True):
 def predict_class(sentence, model):
     # filter out predictions below a threshold
     p = bow(sentence, words, show_details=False)
-    print(p)
     if not np.any(p):
         return [{"intent": 'noanswer', "probability": 1.0}]
     res = model.predict(np.array([p]))[0]
@@ -134,6 +137,12 @@ def call_reminder(sleep_time, event):
         time.sleep(sleep_time * 60) # Sleep_time is in minute
         call_event(event)
 
+def call_daily(time_call, event):
+    while 1:
+        time.sleep(60)
+        if datetime.strptime(time_call, '%H:%M').strftime('%H:%M') == datetime.now().strftime('%H:%M'):
+            call_event(event)
+
 def call_str(str):
     ChatLog.config(state=NORMAL)
     ChatLog.config(foreground="#442265", font=("Verdana", 12 ))
@@ -183,9 +192,14 @@ if isInit:
 
     isInit = False
 
-for event in list(EVENT_DICT.keys()):
-    if (datetime.strptime(EVENT_DICT[event], '%Y/%m/%d').day == date.today().day and 
-        datetime.strptime(EVENT_DICT[event], '%Y/%m/%d').month == date.today().month):
+for reminder in list(DAILY_EVENT_DICT.keys()):
+    t = Thread(target=call_daily, args=(DAILY_EVENT_DICT[reminder], reminder,))
+    reminder_list.append(t)
+    reminder_list[-1].start()
+
+for event in list(YEARLY_EVENT_DICT.keys()):
+    if (datetime.strptime(YEARLY_EVENT_DICT[event], '%Y/%m/%d').day == date.today().day and 
+        datetime.strptime(YEARLY_EVENT_DICT[event], '%Y/%m/%d').month == date.today().month):
         call_event(event)
 
 EntryBox.place(x=128, y=401, height=90, width=265)

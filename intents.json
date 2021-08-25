@@ -1,7 +1,7 @@
 {"intents": [
         {"tag": "greeting",
          "patterns": ["Hi there", "How are you", "Is anyone there?","Hey","Hola", "Hello", "Good day"],
-         "responses": ["Hello there", "Hola", "Hi bot", "Good day", "It's good to see you", "Hi! How's it going?", "Hi there, how can I help?"],
+         "responses": ["Hello there", "Hola", "It's good to see you", "Hi there, how can I help?"],
          "context": [""]
         },
         {"tag": "inspiration",
@@ -26,12 +26,12 @@
         },
         {"tag": "eating",
         "patterns": ["I am hungry", "hungry", "I want to eat something", "I need food", "food"],
-        "responses": ["Maybe, you should have a brunch", "Try healthy yogurt if you like", "Hmm, get some healthy snacks", "A boiled egg is a good choice", "Let's go to boost energy with some snakcs."],
+        "responses": ["Maybe, you should have a brunch", "Try healthy yogurt if you like", "Hmm, get some healthy snacks", "A boiled egg is a good choice", "Let's go to boost energy with some snacks."],
         "context": [""]
         },
         {"tag": "what_to_eat",
         "patterns": ["No, it's not enough", "I dont like to eat that", "what should I eat for breakfast?", "what should I eat for lunch?", "what should I eat for dinner?", "what should I cook today?", "Can you suggest something to eat?", "No, I want more", "I wanna cook something"],
-        "responses": ["Healthy salad is a good choice", "How about pasta?", "You like sandwich with smoked bacon, egg & mayonaise?", "Chicken nuggets with fries & salad", "You want some Yangzhou fried rice & juice", "I think you should try Simmered Pork in fish sauce with pepper & Young tofu soup", "Some healthy dishes like steamed chicken & tomato soup"],
+        "responses": ["Healthy salad is a good choice", "How about pasta?", "You like sandwich with smoked bacon, egg & mayonaise?", "Chicken nuggets with fries & salad", "Do you want some Yangzhou fried rice & juice?", "I think you should try Simmered Pork in fish sauce with pepper & Young tofu soup", "Some healthy dishes like steamed chicken & tomato soup"],
         "context": [""]
         },
         {"tag": "drink",
@@ -96,7 +96,7 @@
         },
         {"tag": "birthday",
         "patterns": [],
-        "responses": ["Today is your birthday, I wish you have a wonderful day!", "Happy birthday! I hope all your birthday wishes and dreams come true", "May the joy that you have spread in the past come back to you on this day. Wishing you a very happy birthday!", "Count not the candles…see the lights they give. Count not the years, but the life you live. Wishing you a wonderful time ahead. Happy birthday.", "Your birthday is the first day of another 365-day journey. Be the shining thread in the beautiful tapestry of the world to make this year the best ever. Enjoy the ride.", "A birthday is like a new year and my wish for you, is a great year full of happiness and sunshine!", "May your birthday be sprinkled with fun and laughter. Have a great day!"],
+        "responses": ["Today is your birthday, I wish you have a wonderful day!", "Happy birthday! I hope all your birthday wishes and dreams come true", "May the joy that you have spread in the past come back to you on this day. Wishing you a very happy birthday!", "Count not the candles, see the lights they give. Count not the years, but the life you live. Wishing you a wonderful time ahead. Happy birthday.", "Your birthday is the first day of another 365-day journey. Be the shining thread in the beautiful tapestry of the world to make this year the best ever. Enjoy the ride.", "A birthday is like a new year and my wish for you, is a great year full of happiness and sunshine!", "May your birthday be sprinkled with fun and laughter. Have a great day!"],
         "context": [""]
         },
         {"tag": "christmas",
@@ -111,7 +111,7 @@
         },
         {"tag": "drink_water",
         "patterns": [],
-        "responses": ["Let's have a sip of water, it's good for your health", "Now! Go to have some water", "Hi, a kind reminder for a drinking water. Hurry!", "Your body told me that it really needs water! Drink now"],
+        "responses": ["Let's have a sip of water, it's good for your health", "Hi, a kind reminder for you to have some water. Leggo!", "Your body told me that it really needs water! Drink now"],
         "context": [""]
         },
         {"tag": "stand_up",
@@ -127,6 +127,36 @@
         {"tag": "do_exercise",
         "patterns": [],
         "responses": ["You should do a small exercise, it's good for your health"],
+        "context": [""]
+        },
+        {"tag": "ask_employee",
+        "patterns": [],
+        "responses": ["How do you feel today?"],
+        "context": [""]
+        },
+        {"tag": "answer_good",
+        "patterns": ["good", "best", "terrific", "today is good", "it is terrific", "better", "this is the best day", "awesome", "delightful", "nice"],
+        "responses": ["Thank you for your response. I'm glad that you're having a good day."],
+        "context": [""]
+        },
+        {"tag": "answer_neutral",
+        "patterns": ["normal", "neutral", "today is normal", "it is neutral", "same day", "as usual"],
+        "responses": ["Thank you for your response. I'm having a feeling that tomorrow is going to be nice."],
+        "context": [""]
+        },
+        {"tag": "answer_bad",
+        "patterns": ["bad", "worse", "worst", "today is bad", "it is terrible", "worse", "this is the worst day", "not good", "I'm tired today", "boring"],
+        "responses": ["Thank you for your response. I'm sorry to hear that, tomorrow is going to be a brand new awesome day, trust me."],
+        "context": [""]
+        },
+        {"tag": "joke",
+        "patterns": ["tell me a joke", "joke", "give me a joke", "tell joke", "tell a joke"],
+        "responses": ["I'm afraid for the calendar. Its days are numbered.", "My wife said I should do lunges to stay in shape. That would be a big step forward.", "Singing in the shower is fun until you get soap in your mouth. Then it's a soap opera.", "What do you call a fish wearing a bowtie? - Sofishticated.", "Dear Math, grow up and solve your own problems."],
+        "context": [""]
+        },
+        {"tag": "sing",
+        "patterns": ["can you sing a song", "can you sing", "sing", "you sing", "song", "turn on a song", "give me a song"],
+        "responses": ["I cannot sing but here's the link, you could check this on your browser: https://youtu.be/UNZqm3dxd2w", "You can check this link for a song: https://youtu.be/FM7MFYoylVs", "I sure hope I can sing, but here's a link for a song: https://youtu.be/dvgZkm1xWPE"],
         "context": [""]
         }
    ]

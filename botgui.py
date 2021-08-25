@@ -35,16 +35,19 @@ class GUI(Frame):
 		self.words = pickle.load(open('words.pkl','rb'))
 		self.classes = pickle.load(open('classes.pkl','rb'))
 		self.model = keras.models.load_model('chatbot_model.h5')
-		self.EVENT_DICT = {
+		self.YEARLY_EVENT_DICT = {
 			'christmas': '2000/12/25',
 			'birthday': self.user['birthday'],
 			'work_aniversary': self.user['work_aniversary']
 		}
+		self.DAILY_EVENT_DICT = {
+			'ask_employee': '21:50'
+		}
 		self.REMINDER_DICT = {
 			'drink_water': 0.5,
-			'stand_up': 2.0,
-			'walk': 3.0,
-			'do_exercise': 4.0
+			'stand_up': 60.0,
+			'walk': 60.0,
+			'do_exercise': 60.0
 		}
 		self.p = pyaudio.PyAudio()
 		self.frames = []
@@ -72,7 +75,7 @@ class GUI(Frame):
 		label1.place(x = 0, y = 0)
 	
 		# set the title
-		self.hellow_window.title("CareU3000")
+		self.hellow_window.title("CareU")
 		self.hellow_window.resizable(width = False,
 							height = False)
 		self.hellow_window.configure(width = w,
@@ -80,6 +83,7 @@ class GUI(Frame):
 
 		# create a hello string user Label and place it
 		hello_str = "Greetings to you, " + helpers.get_user_name()
+		# hello_str = self.getResponseFromTag('inspiration', self.intents)
 		self.pls = Label(self.hellow_window,
 					text = hello_str,
 					justify = CENTER,
@@ -105,7 +109,7 @@ class GUI(Frame):
 		# along with action
 		self.go = Button(
 			self.hellow_window,
-			text = "Let's talk",
+			text = "Let's talk!",
 			font = "Helvetica 14 bold",
 			command = lambda: self.goAhead(helpers.get_user_name()),
 		)
@@ -272,15 +276,20 @@ class GUI(Frame):
 		self.call_event("inspiration")
 
 		# auto call event
-		for event in list(self.EVENT_DICT.keys()):
-			if (datetime.strptime(self.EVENT_DICT[event], '%Y/%m/%d').day == date.today().day and 
-				datetime.strptime(self.EVENT_DICT[event], '%Y/%m/%d').month == date.today().month):
+		for event in list(self.YEARLY_EVENT_DICT.keys()):
+			if (datetime.strptime(self.YEARLY_EVENT_DICT[event], '%Y/%m/%d').day == date.today().day and 
+				datetime.strptime(self.YEARLY_EVENT_DICT[event], '%Y/%m/%d').month == date.today().month):
 				self.call_event(event)
 		
 		# auto call reminder
 		reminder_list = []
 		for reminder in list(self.REMINDER_DICT.keys()):
 			t = Thread(target=self.call_reminder, args=(self.REMINDER_DICT[reminder], reminder,))
+			reminder_list.append(t)
+			reminder_list[-1].start()
+		
+		for reminder in list(self.DAILY_EVENT_DICT.keys()):
+			t = Thread(target=self.call_daily, args=(self.DAILY_EVENT_DICT[reminder], reminder,))
 			reminder_list.append(t)
 			reminder_list[-1].start()
 
@@ -301,6 +310,12 @@ class GUI(Frame):
 		while 1:
 			time.sleep(sleep_time * 60) # Sleep_time is in minute
 			self.call_event(event)
+
+	def call_daily(self, time_call, event):
+		while 1:
+			time.sleep(60)
+			if datetime.strptime(time_call, '%H:%M').strftime('%H:%M') == datetime.now().strftime('%H:%M'):
+				self.call_event(event)
 
 	def send(self):
 		msg = self.entryMsg.get("1.0",'end-1c').strip()
