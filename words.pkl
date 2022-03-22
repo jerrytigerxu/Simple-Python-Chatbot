@@ -175,4 +175,12 @@ aVwith
 p87
 aVyou
 p88
+aVsup
+p89
+aVhow
+p90
+aVyes
+p91
+aVno
+p92
 a.
