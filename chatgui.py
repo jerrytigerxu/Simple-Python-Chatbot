@@ -64,7 +64,6 @@ def chatbot_response(msg):
 
 
 #Creating GUI with tkinter
-import tkinter
 from tkinter import *
 
 
